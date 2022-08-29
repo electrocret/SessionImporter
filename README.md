@@ -3,6 +3,7 @@ This is a basic Session Importer library meant to output Session import files fo
 
 
 ``` python
+from SessionImporter import SessionImporter,Session,Folder
 importer = SessionImporter()
 folder = Folder("test folder")
 session = Session("session name","session hostname")
