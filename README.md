@@ -4,13 +4,13 @@ This is a basic Session Importer library meant to output Session import files fo
 
 ``` python
 from SessionImporter import SessionImporter,Session,Folder
-importer = SessionImporter()
-folder = Folder("test folder")
-session = Session("session name","session hostname")
+importer = SessionImporter() #Creates SessionImporter object
+folder = Folder("TEST-Folder") #Creates folder named TEST-Folder
+session = Session("TEST-Session","session hostname") #Creates Session named TEST-Session
 
-folder.add(session)
-importer.add(folder)
-importer.write_securecrt("test.xml")
+folder.add(session) #Adds TEST-Session into TEST-Folder
+importer.add(folder) #Adds TEST-Folder to the SessionImporter
+importer.write_securecrt("test.xml") #Tells SessionImporter to write sessions to test.xml in SecureCRT compatible format.
 
 ```
 
