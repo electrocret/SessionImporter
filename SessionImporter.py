@@ -7,7 +7,7 @@ class Import_Obj(ABC):
 	def name(self):
 		pass
 	@abstractmethod
-	def import_securecrt(self,elm):
+	def write_securecrt(self,elm):
 		pass
 	
 
@@ -16,14 +16,14 @@ class SessionImporter(Import_Obj):
   self._contents=[]
 
         
- def import_securecrt(self,file):
+ def write_securecrt(self,file):
   tree = ET.Element("VanDyke")
   tree.set("version", "3.0")
 
   sessions = ET.SubElement(tree, "key")
   sessions.set("name", "Sessions")
   for content in self._contents:
-    content.import_securecrt(elm)
+    content.write_securecrt(elm)
   mydata = ET.tostring(tree)
   dom = xml.dom.minidom.parseString(mydata)
   xml_file=dom.toprettyxml()
@@ -51,7 +51,7 @@ class Session(Import_Obj):
   if Jumphost is not None:
       self._Jumphost=Jumphost
 		
- def import_securecrt(self,elm):
+ def write_securecrt(self,elm):
   session = ET.SubElement(elm, "key")
   session.set("name", self._name)
 		
@@ -72,8 +72,8 @@ class Folder (SessionImporter):
   super().__init__()
   self._name=name
   
- def import_securecrt(self,elm):
+ def write_securecrt(self,elm):
   folder = ET.SubElement(elm, "key")
   folder.set("name", self._name)
   for content in self._contents:
-   content.import_securecrt(folder)
+   content.write_securecrt(folder)
