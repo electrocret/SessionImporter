@@ -6,7 +6,7 @@ importer = SessionImporter()
 
 devices = libreapi.list_devices()
 
-for device in devices
+for device in devices:
 	importer.add(Session(device.hostname,device.ip))
 
 importer.write_securecrt("Librenms.xml")
