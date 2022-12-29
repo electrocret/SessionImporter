@@ -3,13 +3,13 @@ import xml.dom.minidom
 from abc import ABC, abstractmethod
 
 class Import_Obj(ABC):
-	@abstractmethod
-	def name(self):
-		pass
-	@abstractmethod
-	def write_securecrt(self,elm):
-		pass
-	
+
+        def name(self):
+            return self._name
+        @abstractmethod
+        def write_securecrt(self,elm):
+            pass
+        
 
 class SessionImporter(Import_Obj):
  def __init__(self):
@@ -23,22 +23,22 @@ class SessionImporter(Import_Obj):
   sessions = ET.SubElement(tree, "key")
   sessions.set("name", "Sessions")
   for content in self._contents:
-    content.write_securecrt(elm)
+    content.write_securecrt(sessions)
   mydata = ET.tostring(tree)
   dom = xml.dom.minidom.parseString(mydata)
   xml_file=dom.toprettyxml()
   with open(file, "w") as xml_write:
    xml_write.write(xml_file)
-	
+        
  def get(self, Name, Type = None):
   for imp_obj in self._contents:
    if (Type == None or type(imp_obj) == Type) and imp_obj.name() == Name:
     return imp_obj
   return None
-			
+                        
  def add(self, imp_obj):
-  if isssubclass(imp_obj,Import_Obj) and type(imp_obj) != SessionImporter:
-   self._contents.push(imp_obj)
+  if isinstance(imp_obj,Import_Obj) and type(imp_obj) != SessionImporter:
+   self._contents.append(imp_obj)
 
  def hasFolder(self, Foldername):
   return self.get(Foldername,"Folder") != None
@@ -50,15 +50,15 @@ class Session(Import_Obj):
   self._Protocol_Name=Protocol_Name
   if Jumphost is not None:
       self._Jumphost=Jumphost
-		
+                
  def write_securecrt(self,elm):
   session = ET.SubElement(elm, "key")
   session.set("name", self._name)
-		
+                
   session_hostname = ET.SubElement(session, "string")
   session_hostname.set("name", "Hostname")
   session_hostname.text = self._Hostname
-		
+                
   session_protocol = ET.SubElement(session, "string")
   session_protocol.set("name", "Protocol Name")
   session_protocol.text = self._Protocol_Name
