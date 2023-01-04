@@ -3,14 +3,16 @@ from SessionImporter import SessionImporter,Session,Folder
 
 libreapi =  LibreNMSAPIClient()
 importer = SessionImporter()
+lnmssessions=Folder("LibreNMS Sessions")
 
 devices = libreapi.list_devices()
 
 for device in devices:
     if(device['ip'] == ""):
-        importer.add(Session(device['sysName'], device['hostname']))
+        lnmssessions.add(Session(device['sysName'], device['hostname']))
     else:
-        importer.add(Session(device['sysName'], device['ip']))
+        lnmssessions.add(Session(device['sysName'], device['ip']))
 
+importer.add(lnmssessions)
 importer.write_securecrt("Librenms.xml")
 
